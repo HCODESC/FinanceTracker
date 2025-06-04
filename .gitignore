@@ -1,0 +1,67 @@
+# Build results
+bin/
+obj/
+out/
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# ASP.NET & EF Core
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+*.db
+*.sqlite
+*.bak
+
+# Entity Framework
+Migrations/*Snapshot.cs
+Migrations/*Designer.cs
+
+# Logs
+*.log
+logs/
+log.txt
+
+# dotnet CLI artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# Test Results
+TestResults/
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.nuspec
+
+# JetBrains Rider IDE
+.idea/
+*.sln.iml
+
+# Auto-generated files
+Generated_Code/
+
