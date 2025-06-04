@@ -142,7 +142,7 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 
 ---
 
-### ✨ Stretch Goals (Optional but impressive)
+### ✨ Stretch Goals 
 
 - [ ] PDF/CSV export of monthly reports
 - [ ] Recurring transactions
@@ -170,14 +170,8 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 - [ ] Fully functional database and migration history
 - [ ] Deployed app with live demo URL
 - [ ] Public GitHub repo with README, screenshots, and tech stack
-- [ ] Resume bullet:  
-  _“Built a full-stack personal finance tracker using Blazor and .NET Web API with EF Core, featuring budget monitoring, interactive charts, and secure user auth.”_
 
 ---
 
-## 🚀 Let’s Build It
 
-Feel free to ask for help with:
-- Scaffolding models and controllers
-- Designing UI pages
-- Configuring deployments
+
