@@ -110,4 +110,28 @@ public class CategoryController(ICategoryService service, IMapper mapper, ILogge
             return StatusCode(500, new { error = "An unexpected error occured" });
         } 
     }
+
+    [HttpDelete("{categoryId}")]
+    public async Task<IActionResult> DeleteCategory(Guid categoryId)
+    {
+        try
+        {
+            var userId = User.GetUserId();
+        
+            if(userId == Guid.Empty) 
+                return Unauthorized();
+        
+            var result = await service.DeleteCategoryAsync(categoryId, userId);
+        
+            if(result.IsSuccess) return Ok(result.Data);
+        
+            return BadRequest(new { result.ErrorMessage });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Unexpected error in DeleteCategory Endpoint");
+            return StatusCode(500, new { error = "An unexpected error occured" });
+        } 
+       
+    }
 }

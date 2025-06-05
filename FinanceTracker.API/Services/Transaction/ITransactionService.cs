@@ -14,5 +14,5 @@ public interface ITransactionService
     // FindTransactionById
     Task<ServiceResult<TransactionResponseDto>> GetTransactionByIdAsync(Guid id, Guid userId);
     //GetAllTransaction
-    Task<PagedResult<TransactionResponseDto>> GetAllTransactionsAsync(Guid userId, int page=1, int pageSize=20);
+    Task<PagedResult<TransactionResponseDto>> GetAllTransactionsAsync(Guid userId, int page = 1, int pageSize = 20); 
 }
