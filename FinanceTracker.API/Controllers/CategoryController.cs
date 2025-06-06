@@ -10,7 +10,7 @@ namespace FinanceTracker.API.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/[controller]/[action]")]
-public class CategoryController(ICategoryService service, IMapper mapper, ILogger<CategoryController> logger)
+public class CategoryController(ICategoryService service, ILogger<CategoryController> logger)
     : ControllerBase
 {
     [HttpPost]

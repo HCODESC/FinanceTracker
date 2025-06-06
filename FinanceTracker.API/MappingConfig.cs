@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceTracker.API.DTOs.Budget;
 using FinanceTracker.API.DTOs.Category;
 using FinanceTracker.API.DTOs.Transaction;
 using FinanceTracker.API.Model;
@@ -13,5 +14,7 @@ public class MappingConfig : Profile
         CreateMap<Transaction, TransactionResponseDto>(); 
         CreateMap<CategoryRequestDto, Category>();
         CreateMap<Category, CategoryResponseDto>();
+        CreateMap<BudgetRequestDto, Budget>().ReverseMap();
+        
     }
 }

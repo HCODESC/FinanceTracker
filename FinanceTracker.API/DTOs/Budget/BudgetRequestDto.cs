@@ -1,6 +1,6 @@
 ﻿namespace FinanceTracker.API.DTOs.Budget
 {
-    public class BudgetCreateDto
+    public class BudgetRequestDto
     {
         public int Month { get; set; }
         public int Year { get; set; }
