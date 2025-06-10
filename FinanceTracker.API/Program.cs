@@ -4,6 +4,7 @@ using FinanceTracker.API.Data;
 using FinanceTracker.API.Services.Auth;
 using FinanceTracker.API.Services.Budget;
 using FinanceTracker.API.Services.Category;
+using FinanceTracker.API.Services.Report;
 using FinanceTracker.API.Services.Transaction;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
+builder.Services.AddScoped<IReportService, ReportService>(); 
 
 //AutoMapper config
 builder.Services.AddAutoMapper(typeof(MappingConfig));
@@ -62,7 +64,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo 
     { 
-        Title = "My API", 
+        Title = "My API",
         Version = "v1",
         Description = "API with JWT Authentication"
     });
