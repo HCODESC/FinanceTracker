@@ -38,7 +38,8 @@ public class ReportServiceTest
             Amount = 50m,
             TransactionDate = new DateTime(targetYear, targetMonth, 10, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
-            Note = "Lunch out"
+            Note = "Lunch out",
+            Type = TransactionType.Expense
         });
         expectedTotalExpenses += 50m; // Add to our expected sum
 
@@ -50,23 +51,20 @@ public class ReportServiceTest
             Amount = 70m,
             TransactionDate = new DateTime(targetYear, targetMonth, 20, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
-            Note = "Groceries shopping"
+            Note = "Groceries shopping",
+            Type = TransactionType.Expense
         });
         expectedTotalExpenses += 70m; // Add to our expected sum
 
-        // At this point, expectedTotalExpenses is 120m, matching your original assertion.
-        // This makes the assertion directly tied to the arranged data.
-
-        // Add transactions that *should NOT* be included to test filtering logic
-        // Transaction for a different user
         _dbContext.Transactions.Add(new Transaction()
         {
             Id = Guid.NewGuid(),
-            UserId = Guid.NewGuid(), // Different user
+            UserId = userId, // Different user
             Amount = 200m,
             TransactionDate = new DateTime(targetYear, targetMonth, 15, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
-            Note = "Another user's expense"
+            Note = "Another user's expense",
+            Type = TransactionType.Expense
         });
         expectedTotalExpenses += 200m;
         // Transaction for a different month/year (same user)
@@ -77,17 +75,17 @@ public class ReportServiceTest
             Amount = 30m,
             TransactionDate = new DateTime(2024, 12, 5, 0, 0, 0, DateTimeKind.Utc), // Different year/month
             CategoryId = Guid.NewGuid(),
-            Note = "Old expense"
+            Note = "Old expense",
+            Type = TransactionType.Income
         });
-        expectedTotalExpenses += 30m;
-       
+        
         await _dbContext.SaveChangesAsync();
         //act
         var result = await _reportService.GetMonthlySummaryAsync(userId, 6, 2025); 
         
-        //Asser
+        //Assert
         Assert.True(result.IsSuccess, "The operation should be successful");
         Assert.NotNull(result.Data); 
-        Assert.Equal(250m, result.Data.TotalExpenses);
+        Assert.Equal(expectedTotalExpenses, result.Data.TotalExpenses);
     }
 }
