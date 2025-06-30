@@ -24,6 +24,7 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 - [x] Add projects:
     - [x] `FinanceTracker.API` - ASP.NET Core Web API
     - [ ] `FinanceTracker.Blazor` - Blazor WebAssembly (or Server)
+    - [x] `FinanceTracker.Shared` - Shared Class Library
 - [x] Add EF Core packages to API project
 - [x] Add authentication setup (ASP.NET Identity or JWT)
 
