@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using FinanceTracker.API.DTOs.Budget;
-using FinanceTracker.API.DTOs.Category;
-using FinanceTracker.API.DTOs.Transaction;
+using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Model;
 
 namespace FinanceTracker.API;

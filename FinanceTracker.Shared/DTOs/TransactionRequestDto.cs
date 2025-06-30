@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations; using FinanceTracker.API.Model; 
-namespace FinanceTracker.API.DTOs.Transaction;
+﻿using System.ComponentModel.DataAnnotations;
+using FinanceTracker.Shared.Enums;
+
+namespace FinanceTracker.Shared.DTOs;
 
 public class TransactionRequestDto
 {

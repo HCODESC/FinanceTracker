@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.API.DTOs.Budget
+﻿namespace FinanceTracker.Shared.DTOs
 {
     public class BudgetSummaryDto
     {

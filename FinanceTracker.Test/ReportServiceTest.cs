@@ -3,6 +3,7 @@ using FinanceTracker.API.Model;
 using FinanceTracker.API.Services.Report;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using FinanceTracker.Shared.Enums;
 
 namespace FinanceTracker.Test;
 
@@ -39,7 +40,7 @@ public class ReportServiceTest
             TransactionDate = new DateTime(targetYear, targetMonth, 10, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
             Note = "Lunch out",
-            Type = TransactionType.Expense
+            Type = TransactionType.EXPENSE
         });
         expectedTotalExpenses += 50m; // Add to our expected sum
 
@@ -52,7 +53,7 @@ public class ReportServiceTest
             TransactionDate = new DateTime(targetYear, targetMonth, 20, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
             Note = "Groceries shopping",
-            Type = TransactionType.Expense
+            Type = TransactionType.EXPENSE
         });
         expectedTotalExpenses += 70m; // Add to our expected sum
 
@@ -64,7 +65,7 @@ public class ReportServiceTest
             TransactionDate = new DateTime(targetYear, targetMonth, 15, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
             Note = "Another user's expense",
-            Type = TransactionType.Expense
+            Type = TransactionType.EXPENSE
         });
         expectedTotalExpenses += 200m;
         // Transaction for a different month/year (same user)
@@ -76,7 +77,7 @@ public class ReportServiceTest
             TransactionDate = new DateTime(2024, 12, 5, 0, 0, 0, DateTimeKind.Utc), // Different year/month
             CategoryId = Guid.NewGuid(),
             Note = "Old expense",
-            Type = TransactionType.Income
+            Type = TransactionType.INCOME
         });
         
         await _dbContext.SaveChangesAsync();

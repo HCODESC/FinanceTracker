@@ -1,4 +1,4 @@
-namespace FinanceTracker.API.DTOs;
+namespace FinanceTracker.Shared.DTOs;
 
 public class MonthlyReportDto
 {

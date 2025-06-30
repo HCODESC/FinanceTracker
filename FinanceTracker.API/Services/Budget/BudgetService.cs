@@ -1,9 +1,8 @@
-using System.Linq.Expressions;
 using AutoMapper;
 using FinanceTracker.API.Data;
-using FinanceTracker.API.DTOs.Budget;
+using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Helpers;
-using FinanceTracker.API.Model;
+using FinanceTracker.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceTracker.API.Services.Budget;
@@ -63,7 +62,7 @@ public class BudgetService(ILogger<BudgetService> logger, FinanceTrackerDbContex
                                                                   && t.CategoryId == b.CategoryId 
                                                                   && t.TransactionDate.Month == month 
                                                                   && t.TransactionDate.Year == year
-                                                                  && t.Type == TransactionType.Expense)
+                                                                  && t.Type == TransactionType.EXPENSE)
                         .Sum(t => (decimal?)t.Amount) ?? 0
                 }).ToListAsync();
         

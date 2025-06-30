@@ -1,5 +1,5 @@
 ﻿using FinanceTracker.API.Data;
-using FinanceTracker.API.DTOs.Auth;
+using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Model;
 using Microsoft.EntityFrameworkCore;
 

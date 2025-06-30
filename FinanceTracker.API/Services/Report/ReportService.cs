@@ -1,7 +1,7 @@
 using FinanceTracker.API.Data;
-using FinanceTracker.API.DTOs;
 using FinanceTracker.API.Helpers;
-using FinanceTracker.API.Model;
+using FinanceTracker.Shared.DTOs;
+using FinanceTracker.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceTracker.API.Services.Report;
@@ -15,11 +15,11 @@ public class ReportService(FinanceTrackerDbContext context, ILogger<ReportServic
             var transactions = await context.Transactions.Where(t => t.UserId == userId && t.TransactionDate.Month == month && t.TransactionDate.Year == year).ToListAsync();
 
             var totalExpense = transactions
-                .Where(t => t.Type == TransactionType.Expense)
+                .Where(t => t.Type == TransactionType.EXPENSE)
                 .Sum(t => t.Amount);
             
             var totalIncome = transactions
-                .Where(t => t.Type == TransactionType.Income)
+                .Where(t => t.Type == TransactionType.INCOME)
                 .Sum(t => t.Amount);
             var summary = new MonthlyReportDto()
             {

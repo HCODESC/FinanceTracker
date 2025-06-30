@@ -1,12 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using FinanceTracker.Shared.Enums;
 namespace FinanceTracker.API.Model
 {
-    public enum TransactionType {
-        Income,
-        Expense
-    }
-
     public class Transaction
     {
         public Guid Id { get; set; } = Guid.NewGuid();

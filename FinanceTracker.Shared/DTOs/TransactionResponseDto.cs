@@ -1,6 +1,7 @@
-﻿using FinanceTracker.API.Model;
+﻿
+using FinanceTracker.Shared.Enums;
 
-namespace FinanceTracker.API.DTOs.Transaction
+namespace FinanceTracker.Shared.DTOs
 {
     public class TransactionResponseDto
     {

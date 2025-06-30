@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FinanceTracker.API.Data;
-using FinanceTracker.API.DTOs.Category;
 using FinanceTracker.API.Helpers;
+using FinanceTracker.Shared.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceTracker.API.Services.Category;

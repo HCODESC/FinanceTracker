@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.API.DTOs.Auth;
+﻿namespace FinanceTracker.Shared.DTOs;
 
 public class RegisterDto
 {

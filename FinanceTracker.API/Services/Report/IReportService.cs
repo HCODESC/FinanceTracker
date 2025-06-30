@@ -1,5 +1,6 @@
-using FinanceTracker.API.DTOs;
+using FinanceTracker.Shared;
 using FinanceTracker.API.Helpers;
+using FinanceTracker.Shared.DTOs;
 
 namespace FinanceTracker.API.Services.Report;
 

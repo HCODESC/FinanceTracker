@@ -1,5 +1,5 @@
 ﻿
-using FinanceTracker.API.DTOs.Auth;
+using FinanceTracker.Shared.DTOs;
 
 namespace FinanceTracker.API.Services.Auth;
 

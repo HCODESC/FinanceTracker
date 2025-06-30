@@ -1,8 +1,8 @@
-using FinanceTracker.API.DTOs.Budget;
 using FinanceTracker.API.Extensions;
 using FinanceTracker.API.Services.Budget;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FinanceTracker.Shared.DTOs;
 
 namespace FinanceTracker.API.Controllers;
 

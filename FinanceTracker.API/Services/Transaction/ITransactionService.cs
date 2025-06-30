@@ -1,4 +1,4 @@
-﻿using FinanceTracker.API.DTOs.Transaction;
+﻿using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Helpers;
 
 namespace FinanceTracker.API.Services.Transaction;

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FinanceTracker.API.DTOs.Category;
+﻿using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Extensions;
 using FinanceTracker.API.Services.Category;
 using Microsoft.AspNetCore.Authorization;

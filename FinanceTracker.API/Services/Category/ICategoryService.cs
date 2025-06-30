@@ -1,4 +1,4 @@
-﻿using FinanceTracker.API.DTOs.Category;
+﻿using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Helpers;
 
 namespace FinanceTracker.API.Services.Category;

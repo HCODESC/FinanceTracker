@@ -1,6 +1,5 @@
-﻿using FinanceTracker.API.Model;
-
-namespace FinanceTracker.API.DTOs.Category
+﻿
+namespace FinanceTracker.Shared.DTOs
 {
     public class CategoryResponseDto
     {

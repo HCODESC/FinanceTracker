@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceTracker.API.Data;
-using FinanceTracker.API.DTOs.Transaction;
+using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Helpers;
 using Microsoft.EntityFrameworkCore;
 

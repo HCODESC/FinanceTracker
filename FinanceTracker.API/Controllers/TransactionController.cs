@@ -1,4 +1,4 @@
-﻿using FinanceTracker.API.DTOs.Transaction;
+﻿using FinanceTracker.Shared.DTOs;
 using FinanceTracker.API.Extensions;
 using FinanceTracker.API.Services.Transaction;
 using Microsoft.AspNetCore.Authorization;

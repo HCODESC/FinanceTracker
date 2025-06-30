@@ -1,4 +1,4 @@
-﻿namespace FinanceTracker.API.DTOs.Category
+﻿namespace FinanceTracker.Shared.DTOs
 {
     public class CategoryRequestDto
     {
