@@ -63,14 +63,14 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 - [x] `TransactionsController` – CRUD
 - [x] `CategoryController` - CRUD
 - [x] `BudgetsController` – Set/View Budgets
-- [ ] `ReportsController` – Return monthly/annual summaries
+- [x] `ReportsController` – Return monthly/annual summaries
 
 #### Services
 
 - [x] `ITransactionService`
 - [x] `ICategoryService`
 - [x] `IBudgetService`
-- [ ] `IReportService`
+- [x] `IReportService`
 
 ---
 
@@ -94,10 +94,10 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 
 #### Services (API Integration)
 
-- [ ] `AuthService`
-- [ ] `TransactionService`
-- [ ] `BudgetService`
-- [ ] `ReportService`
+- [x] `AuthService`
+- [x] `TransactionService`
+- [x] `BudgetService`
+- [x] `ReportService`
 
 ---
 
