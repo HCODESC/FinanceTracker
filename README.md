@@ -74,7 +74,7 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 
 ---
 
-### 🎨 Blazor UI
+### 🎨 React UI
 
 #### Pages
 
@@ -115,7 +115,7 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 
 - [x] Add JWT to API
 - [x] Secure endpoints with `[Authorize]`
-- [ ] Blazor Auth:
+- [ ] React Auth:
     - [ ] Store auth token in localStorage
     - [ ] Show/hide pages based on login state
     - [ ] Logout + token expiry handling
@@ -127,7 +127,7 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 - [ ] Setup database in Azure/AWS/PostgreSQL
 - [ ] Deploy API using:
     - [ ] Azure App Service / Railway / Render
-- [ ] Deploy Blazor UI using:
+- [ ] Deploy React UI using:
     - [ ] Azure Static Web Apps / Vercel / Netlify
 - [ ] Setup CI/CD (GitHub Actions or Azure DevOps)
 - [ ] Add environment configs and connection strings
@@ -172,6 +172,7 @@ A full-stack Blazor + .NET Web API application to help users track income, expen
 - [ ] Public GitHub repo with README, screenshots, and tech stack
 
 ---
+
 
 
 
