@@ -6,7 +6,7 @@ namespace FinanceTracker.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class AuthController(IAuthService authService, IConfiguration configuration) : ControllerBase
+public class AuthController(IAuthService authService) : ControllerBase
 {
 
     [HttpPost("register")]
@@ -25,21 +25,14 @@ public class AuthController(IAuthService authService, IConfiguration configurati
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
-        var token = await authService.LoginAsync(loginDto);
+        var (isSuccess, response, errorMessage) = await authService.LoginAsync(loginDto);
         
-        if (string.IsNullOrEmpty(token))
+        if (!isSuccess)
         {
-            return Unauthorized(new { message = "Invalid credentials" });
+            return Unauthorized(new { message = errorMessage });
         }
 
-        var jwtSettings = configuration.GetSection("JwtSettings");
-        var expirationMinutes = Convert.ToDouble(jwtSettings["ExpiresInMinutes"]);
-
-        return Ok(new
-        {
-            token = token,
-            expiresAt = DateTime.UtcNow.AddMinutes(expirationMinutes)
-        });
+        return Ok(response);
     }
     
     [HttpGet("test")]

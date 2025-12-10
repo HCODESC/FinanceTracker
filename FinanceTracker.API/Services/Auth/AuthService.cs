@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceTracker.API.Services.Auth;
 
-public class AuthService(FinanceTrackerDbContext context, ITokenService tokenService)
+public class AuthService(FinanceTrackerDbContext context, ITokenService tokenService, IConfiguration configuration)
     : IAuthService
 {
     public async Task<(bool isSuccess, string errorMessage)> RegisterAsync(RegisterDto registerDto)
@@ -57,7 +57,7 @@ public class AuthService(FinanceTrackerDbContext context, ITokenService tokenSer
         }
     }
 
-    public async Task<string> LoginAsync(LoginDto loginDto)
+    public async Task<(bool isSuccess, AuthResponseDto? response, string errorMessage)> LoginAsync(LoginDto loginDto)
     {
         try
         {
@@ -65,7 +65,7 @@ public class AuthService(FinanceTrackerDbContext context, ITokenService tokenSer
             if (string.IsNullOrWhiteSpace(loginDto.Username) || 
                 string.IsNullOrWhiteSpace(loginDto.Password))
             {
-                return string.Empty; // Return empty string for invalid input
+                return (false, null, "Username and password are required");
             }
 
             // Find user by username or email
@@ -75,16 +75,25 @@ public class AuthService(FinanceTrackerDbContext context, ITokenService tokenSer
             // Check if user exists and password is correct
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                return string.Empty; // Return empty string for invalid credentials
+                return (false, null, "Invalid credentials");
             }
 
             // Generate and return JWT token
-            return tokenService.GenerateToken(user.Id, user.Username);
+            var token = tokenService.GenerateToken(user.Id, user.Username);
+
+            var jwtSettings = configuration.GetSection("JwtSettings");
+            var expirationMinutes = Convert.ToDouble(jwtSettings["ExpiresInMinutes"]);
+
+            return (true, new AuthResponseDto 
+            {
+                Token = token,
+                ExpiresAt = DateTime.UtcNow.AddMinutes(expirationMinutes)
+            }, string.Empty);
         }
         catch (Exception ex)
         {
             // Log the exception if you have logging configured
-            return string.Empty;
+            return (false, null, "An error occurred during login");
         }
     }
     

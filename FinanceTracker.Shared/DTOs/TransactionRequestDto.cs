@@ -10,5 +10,7 @@ public class TransactionRequestDto
     [Required] public TransactionType Type { get; set; }
     [MaxLength(500)] public string Note { get; set; }
     [Required] public DateTime TransactionDate { get; set; }
-    [Required] public Guid CategoryId { get; set; } 
+    public Guid? CategoryId { get; set; } 
+    [MaxLength(50)]
+    public string? CreateCategoryName { get; set; } 
 }

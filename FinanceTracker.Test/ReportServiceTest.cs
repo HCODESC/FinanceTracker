@@ -60,14 +60,14 @@ public class ReportServiceTest
         _dbContext.Transactions.Add(new Transaction()
         {
             Id = Guid.NewGuid(),
-            UserId = userId, // Different user
+            UserId = Guid.NewGuid(), // Fix: Ensure this is a DIFFERENT user ID
             Amount = 200m,
             TransactionDate = new DateTime(targetYear, targetMonth, 15, 0, 0, 0, DateTimeKind.Utc),
             CategoryId = Guid.NewGuid(),
             Note = "Another user's expense",
             Type = TransactionType.EXPENSE
         });
-        expectedTotalExpenses += 200m;
+        // expectedTotalExpenses += 200m; // Removed: Should not be included for the target user
         // Transaction for a different month/year (same user)
         _dbContext.Transactions.Add(new Transaction()
         {

@@ -1,0 +1,18 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "FinanceTrackerDb": "Data Source=./FinanceTracker.db"
+  },
+  "JwtSettings": {
+    "Issuer": "FinanceTrackerAPI",
+    "Audience": "FinanceTrackerUser",
+    "ExpiresInMinutes": 60,
+    "Key": "YOUR_SUPER_SECRET_KEY_MUST_BE_AT_LEAST_32_CHARS_LONG_HERE"
+  }
+}

@@ -14,11 +14,54 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
     {
         try
         {
-            var categoryId = transactionRequestDto.CategoryId;
+            Guid categoryId;
 
-            if (categoryId == Guid.Empty)
+            //Check if user provided a category name to create or find
+            if (!string.IsNullOrWhiteSpace(transactionRequestDto.CreateCategoryName))
             {
-                var uncategorized = context.Categories.AsNoTracking().FirstOrDefault(x => x.Name == "Uncategorized");
+                var categoryName = transactionRequestDto.CreateCategoryName.Trim();
+                
+                var existingCategory = await context.Categories
+                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserId == userId);
+
+                if (existingCategory != null)
+                {
+                    categoryId = existingCategory.Id;
+                }
+                else
+                {
+                    // Create new category on the fly
+                    var newCategory = new Model.Category
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = categoryName,
+                        UserId = userId
+                    };
+
+                    await context.Categories.AddAsync(newCategory);
+                    await context.SaveChangesAsync();
+                    categoryId = newCategory.Id;
+                }
+            }
+            //Use provided CategoryId
+            else if (transactionRequestDto.CategoryId.HasValue && transactionRequestDto.CategoryId.Value != Guid.Empty)
+            {
+                categoryId = transactionRequestDto.CategoryId.Value;
+                
+                context.ChangeTracker.Clear();
+                var categoryExists = await context.Categories.IgnoreQueryFilters()
+                    .AnyAsync(c => c.Id == categoryId && c.UserId == userId);
+
+                if (!categoryExists)
+                    return ServiceResult<TransactionResponseDto>.Failure(
+                        "Category not found or doesn't belong to user");
+            }
+            //Fallback to "Uncategorized"
+            else
+            {
+                var uncategorized = await context.Categories
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserId == userId);
 
                 if (uncategorized == null)
                 {
@@ -34,16 +77,6 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 }
 
                 categoryId = uncategorized.Id;
-            }
-            else
-            {
-                context.ChangeTracker.Clear();
-                var categoryExists = await context.Categories.IgnoreQueryFilters()
-                    .AnyAsync(c => c.Id == categoryId && c.UserId == userId);
-
-                if (!categoryExists)
-                    return ServiceResult<TransactionResponseDto>.Failure(
-                        "Category not found or doesn't belong to user");
             }
 
             var transaction = mapper.Map<Model.Transaction>(transactionRequestDto);
@@ -80,16 +113,70 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
             if (transaction.UserId != userId)
                 return ServiceResult<TransactionResponseDto>.Failure("You are not authorize to edit this transaction");
 
-            var categoryExists =
-                await context.Categories.AnyAsync(c => c.Id == transactionRequestDto.CategoryId && c.UserId == userId);
+            // Priority 1: Check if user provided a category name to create or find
+            if (!string.IsNullOrWhiteSpace(transactionRequestDto.CreateCategoryName))
+            {
+                var categoryName = transactionRequestDto.CreateCategoryName.Trim();
+                
+                var existingCategory = await context.Categories
+                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserId == userId);
 
-            if (!categoryExists)
-                return ServiceResult<TransactionResponseDto>.Failure("Invalid category or unathorize access");
+                if (existingCategory != null)
+                {
+                    transaction.CategoryId = existingCategory.Id;
+                }
+                else
+                {
+                    // Create new category on the fly
+                    var newCategory = new Model.Category
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = categoryName,
+                        UserId = userId
+                    };
+
+                    await context.Categories.AddAsync(newCategory);
+                    await context.SaveChangesAsync();
+                    transaction.CategoryId = newCategory.Id;
+                }
+            }
+            // Priority 2: Use provided CategoryId
+            else if (transactionRequestDto.CategoryId.HasValue && transactionRequestDto.CategoryId.Value != Guid.Empty)
+            {
+                var categoryId = transactionRequestDto.CategoryId.Value;
+                var categoryExists = await context.Categories.AnyAsync(c => c.Id == categoryId && c.UserId == userId);
+
+                if (!categoryExists)
+                    return ServiceResult<TransactionResponseDto>.Failure("Invalid category or unathorize access");
+                
+                transaction.CategoryId = categoryId;
+            }
+             // Priority 3: Fallback to "Uncategorized" if nothing provided (or keep existing? Assuming full update means Uncategorized if omitted)
+            else
+            {
+                var uncategorized = await context.Categories
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserId == userId);
+
+                if (uncategorized == null)
+                {
+                    uncategorized = new Model.Category
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Uncategorized",
+                        UserId = userId
+                    };
+
+                    await context.Categories.AddAsync(uncategorized);
+                    await context.SaveChangesAsync();
+                }
+
+                transaction.CategoryId = uncategorized.Id;
+            }
 
             transaction.Amount = transactionRequestDto.Amount;
             transaction.Type = transactionRequestDto.Type;
             transaction.Note = transactionRequestDto.Note;
-            transaction.CategoryId = transactionRequestDto.CategoryId;
 
             context.Update(transaction);
             await context.SaveChangesAsync();

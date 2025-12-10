@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    container_name: financetracker-api
+    ports:
+      - "7045:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__FinanceTrackerDb=Data Source=/app/data/FinanceTracker.db
+      # Make sure to replace this with your actual key in a .env file or real deployment
+      - JwtSettings__Key=YOUR_SUPER_SECRET_KEY_MUST_BE_AT_LEAST_32_CHARS_LONG_HERE
+    volumes:
+      - ./docker-data:/app/data

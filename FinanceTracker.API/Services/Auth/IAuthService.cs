@@ -6,5 +6,5 @@ namespace FinanceTracker.API.Services.Auth;
 public interface IAuthService
 {
     Task<(bool isSuccess, string errorMessage)> RegisterAsync(RegisterDto registerDto); 
-    Task<string> LoginAsync(LoginDto loginDto);
+    Task<(bool isSuccess, AuthResponseDto? response, string errorMessage)> LoginAsync(LoginDto loginDto);
 }
