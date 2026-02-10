@@ -34,6 +34,7 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return Ok(response);
     }
+
     
     [HttpGet("test")]
     [Microsoft.AspNetCore.Authorization.Authorize]
@@ -48,4 +49,6 @@ public class AuthController(IAuthService authService) : ControllerBase
             userId = userId 
         });
     }
+
+
 }

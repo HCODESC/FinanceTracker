@@ -96,6 +96,7 @@ public class AuthService(FinanceTrackerDbContext context, ITokenService tokenSer
             return (false, null, "An error occurred during login");
         }
     }
+
     
     private static bool IsValidEmail(string email)
     {

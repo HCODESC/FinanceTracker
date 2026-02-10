@@ -1,0 +1,86 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HCODES\\development\\FinanceTracker\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|c:\\users\\hcodes\\development\\financetracker\\financetracker.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|solutionrelative:financetracker.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|c:\\users\\hcodes\\development\\financetracker\\financetracker.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|solutionrelative:financetracker.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|c:\\users\\hcodes\\development\\financetracker\\financetracker.api\\services\\auth\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|solutionrelative:financetracker.api\\services\\auth\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|c:\\users\\hcodes\\development\\financetracker\\financetracker.api\\services\\auth\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67662CC0-3103-48B0-B056-685ED5FDFF5E}|FinanceTracker.API\\FinanceTracker.API.csproj|solutionrelative:financetracker.api\\services\\auth\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\appsettings.json",
+              "RelativeDocumentMoniker": "FinanceTracker.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\appsettings.json",
+              "RelativeToolTip": "FinanceTracker.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-07T20:29:57.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\Program.cs",
+              "RelativeDocumentMoniker": "FinanceTracker.API\\Program.cs",
+              "ToolTip": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\Program.cs",
+              "RelativeToolTip": "FinanceTracker.API\\Program.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAnwD4AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T20:29:13.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\Services\\Auth\\IAuthService.cs",
+              "RelativeDocumentMoniker": "FinanceTracker.API\\Services\\Auth\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\Services\\Auth\\IAuthService.cs",
+              "RelativeToolTip": "FinanceTracker.API\\Services\\Auth\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T03:23:24.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\Services\\Auth\\AuthService.cs",
+              "RelativeDocumentMoniker": "FinanceTracker.API\\Services\\Auth\\AuthService.cs",
+              "ToolTip": "C:\\Users\\HCODES\\development\\FinanceTracker\\FinanceTracker.API\\Services\\Auth\\AuthService.cs",
+              "RelativeToolTip": "FinanceTracker.API\\Services\\Auth\\AuthService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwGEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T03:23:23.693Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

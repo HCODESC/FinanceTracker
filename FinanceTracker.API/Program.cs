@@ -9,7 +9,8 @@ using FinanceTracker.API.Services.Transaction;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
+
 using FinanceTracker.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,8 @@ builder.Services.AddCors(options =>
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
+
+    
 });
 
 builder.Services.AddDbContext<FinanceTrackerDbContext>(options =>
@@ -40,22 +43,29 @@ builder.Services.AddDbContext<FinanceTrackerDbContext>(options =>
 });
 
 //Register Auth Service with JWT
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var supabaseUrl = builder.Configuration["supabase:url"]!.TrimEnd('/');
+var authIssuer = $"{supabaseUrl}/auth/v1";
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options=>
 {
+    options.Authority = authIssuer;
+    options.Audience = "authenticated";
+    options.MetadataAddress = $"{authIssuer}/.well-known/openid-configuration";
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
+        ValidIssuer = authIssuer,
+
         ValidateAudience = true,
+        ValidAudience = "authenticated",
+
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"])) 
+        
+        ClockSkew = TimeSpan.FromMinutes(2), 
     }; 
 });
 
@@ -67,7 +77,7 @@ builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<IReportService, ReportService>(); 
 
 //AutoMapper config
-builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingConfig>());
 
 builder.Services.AddAuthorization(); 
 
@@ -91,21 +101,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            []
-        }
-    });
+    
 });
 
 var app = builder.Build();
@@ -137,7 +133,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting(); 
 app.UseCors("AllowAngularDev");
 
 app.UseAuthentication();
