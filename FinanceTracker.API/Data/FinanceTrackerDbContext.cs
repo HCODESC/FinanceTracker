@@ -16,10 +16,14 @@ namespace FinanceTracker.API.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Budget> Budgets { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
         // OnModelCreating method to configure the model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //UserProfile
+            
+
 
             // User
             modelBuilder.Entity<User>(entity =>

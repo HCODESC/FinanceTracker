@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 using FinanceTracker.API.Middleware;
+using FinanceTracker.API.Services.UserProfile;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,7 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<IReportService, ReportService>(); 
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 
 //AutoMapper config
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingConfig>());
