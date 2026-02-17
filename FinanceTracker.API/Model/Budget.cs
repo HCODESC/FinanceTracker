@@ -1,4 +1,6 @@
-﻿namespace FinanceTracker.API.Model
+﻿using AutoMapper;
+
+namespace FinanceTracker.API.Model
 {
     public class Budget
     {
@@ -7,8 +9,8 @@
         public int Year { get; set; }
         public decimal LimitAmount { get; set; }
 
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public Guid UserProfileId { get; set; }
+        public UserProfile UserProfile { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
     }

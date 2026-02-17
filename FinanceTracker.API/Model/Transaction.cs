@@ -11,10 +11,10 @@ namespace FinanceTracker.API.Model
         
         public DateTime TransactionDate { get; set; }
 
-        public DateTime CreateDate { get; set; } = DateTime.UtcNow; 
-        
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.UtcNow;
+
+        public Guid UserProfileId { get; set; }
+        public UserProfile UserProfile { get; set; }
 
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }

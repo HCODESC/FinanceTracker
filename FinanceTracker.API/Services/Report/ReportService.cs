@@ -12,7 +12,7 @@ public class ReportService(FinanceTrackerDbContext context, ILogger<ReportServic
     {
         try
         {
-            var transactions = await context.Transactions.Where(t => t.UserId == userId && t.TransactionDate.Month == month && t.TransactionDate.Year == year).ToListAsync();
+            var transactions = await context.Transactions.Where(t => t.UserProfileId == userId && t.TransactionDate.Month == month && t.TransactionDate.Year == year).ToListAsync();
 
             var totalExpense = transactions
                 .Where(t => t.Type == TransactionType.EXPENSE)

@@ -12,7 +12,6 @@ namespace FinanceTracker.API.Data
         }
 
         // DbSets for your entities
-        public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Budget> Budgets { get; set; }
@@ -25,26 +24,26 @@ namespace FinanceTracker.API.Data
             
 
 
-            // User
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(u => u.Id);
+            //// User
+            //modelBuilder.Entity<User>(entity =>
+            //{
+            //    entity.HasKey(u => u.Id);
 
-                entity.HasMany(c => c.Categories)
-                    .WithOne(u => u.User)
-                    .HasForeignKey(c => c.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
+            //    entity.HasMany(c => c.Categories)
+            //        .WithOne(u => u.User)
+            //        .HasForeignKey(c => c.UserId)
+            //        .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasMany(t => t.Transactions)
-                    .WithOne(u => u.User)
-                    .HasForeignKey(t => t.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
+            //    entity.HasMany(t => t.Transactions)
+            //        .WithOne(u => u.User)
+            //        .HasForeignKey(t => t.UserId)
+            //        .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasMany(b => b.Budgets)
-                    .WithOne(u => u.User)
-                    .HasForeignKey(b => b.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
+            //    entity.HasMany(b => b.Budgets)
+            //        .WithOne(u => u.User)
+            //        .HasForeignKey(b => b.UserId)
+            //        .OnDelete(DeleteBehavior.Cascade);
+            //});
 
             // Category 
             modelBuilder.Entity<Category>(entity =>

@@ -22,7 +22,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 var categoryName = transactionRequestDto.CreateCategoryName.Trim();
                 
                 var existingCategory = await context.Categories
-                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserId == userId);
+                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserProfileId == userId);
 
                 if (existingCategory != null)
                 {
@@ -35,7 +35,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                     {
                         Id = Guid.NewGuid(),
                         Name = categoryName,
-                        UserId = userId
+                        UserProfileId = userId
                     };
 
                     await context.Categories.AddAsync(newCategory);
@@ -50,7 +50,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 
                 context.ChangeTracker.Clear();
                 var categoryExists = await context.Categories.IgnoreQueryFilters()
-                    .AnyAsync(c => c.Id == categoryId && c.UserId == userId);
+                    .AnyAsync(c => c.Id == categoryId && c.UserProfileId == userId);
 
                 if (!categoryExists)
                     return ServiceResult<TransactionResponseDto>.Failure(
@@ -61,7 +61,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
             {
                 var uncategorized = await context.Categories
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserId == userId);
+                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserProfileId == userId);
 
                 if (uncategorized == null)
                 {
@@ -69,7 +69,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                     {
                         Id = Guid.NewGuid(),
                         Name = "Uncategorized",
-                        UserId = userId
+                        UserProfileId = userId
                     };
 
                     await context.Categories.AddAsync(uncategorized);
@@ -81,7 +81,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
 
             var transaction = mapper.Map<Model.Transaction>(transactionRequestDto);
             transaction.Id = Guid.NewGuid();
-            transaction.UserId = userId;
+            transaction.UserProfileId = userId;
             transaction.CategoryId = categoryId;
 
             await context.AddAsync(transaction);
@@ -110,7 +110,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
             if (transaction == null)
                 return ServiceResult<TransactionResponseDto>.Failure("Transaction Not Found");
 
-            if (transaction.UserId != userId)
+            if (transaction.UserProfileId != userId)
                 return ServiceResult<TransactionResponseDto>.Failure("You are not authorize to edit this transaction");
 
             // Priority 1: Check if user provided a category name to create or find
@@ -119,7 +119,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 var categoryName = transactionRequestDto.CreateCategoryName.Trim();
                 
                 var existingCategory = await context.Categories
-                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserId == userId);
+                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserProfileId == userId);
 
                 if (existingCategory != null)
                 {
@@ -132,7 +132,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                     {
                         Id = Guid.NewGuid(),
                         Name = categoryName,
-                        UserId = userId
+                        UserProfileId = userId
                     };
 
                     await context.Categories.AddAsync(newCategory);
@@ -144,7 +144,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
             else if (transactionRequestDto.CategoryId.HasValue && transactionRequestDto.CategoryId.Value != Guid.Empty)
             {
                 var categoryId = transactionRequestDto.CategoryId.Value;
-                var categoryExists = await context.Categories.AnyAsync(c => c.Id == categoryId && c.UserId == userId);
+                var categoryExists = await context.Categories.AnyAsync(c => c.Id == categoryId && c.UserProfileId == userId);
 
                 if (!categoryExists)
                     return ServiceResult<TransactionResponseDto>.Failure("Invalid category or unathorize access");
@@ -156,7 +156,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
             {
                 var uncategorized = await context.Categories
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserId == userId);
+                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserProfileId == userId);
 
                 if (uncategorized == null)
                 {
@@ -164,7 +164,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                     {
                         Id = Guid.NewGuid(),
                         Name = "Uncategorized",
-                        UserId = userId
+                        UserProfileId = userId
                     };
 
                     await context.Categories.AddAsync(uncategorized);
@@ -194,7 +194,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
     {
         try
         {
-            var transaction = await context.Transactions.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+            var transaction = await context.Transactions.FirstOrDefaultAsync(t => t.Id == id && t.UserProfileId == userId);
 
             if (transaction == null)
                 return false;
@@ -221,7 +221,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 return ServiceResult<TransactionResponseDto>.Failure("Transaction not found");
 
 
-            if (transaction.UserId != userId)
+            if (transaction.UserProfileId != userId)
                 return ServiceResult<TransactionResponseDto>.Failure("You are not authorize to view this transaction");
 
             var responseDto = mapper.Map<TransactionResponseDto>(transaction);
@@ -241,7 +241,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
         {
             var query = context.Transactions
                 .Include(ca => ca.Category)
-                .Where(t => t.UserId == userId)
+                .Where(t => t.UserProfileId == userId)
                 .OrderByDescending(t => t.TransactionDate);
 
             var totalCount = await query.CountAsync();

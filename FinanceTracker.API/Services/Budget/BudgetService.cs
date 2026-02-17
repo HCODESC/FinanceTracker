@@ -15,7 +15,7 @@ public class BudgetService(ILogger<BudgetService> logger, FinanceTrackerDbContex
         {
             var existing = await context.Budgets.FirstOrDefaultAsync(
                 b => b.CategoryId == budgetRequestDto.CategoryId && 
-                     b.UserId == userId &&
+                     b.UserProfileId == userId &&
                      b.Month == budgetRequestDto.Month &&
                      b.Year == budgetRequestDto.Year);
 
@@ -25,7 +25,7 @@ public class BudgetService(ILogger<BudgetService> logger, FinanceTrackerDbContex
                 var newBudget = mapper.Map<Model.Budget>(budgetRequestDto);
                 newBudget.Id= Guid.NewGuid();
                 newBudget.CategoryId = budgetRequestDto.CategoryId;
-                newBudget.UserId = userId;
+                newBudget.UserProfileId = userId;
                 await context.Budgets.AddAsync(newBudget);
                 await context.SaveChangesAsync();
                 
@@ -52,13 +52,13 @@ public class BudgetService(ILogger<BudgetService> logger, FinanceTrackerDbContex
 
             var summary = await context.Budgets
                 .Include(b => b.Category)
-                .Where(b => b.UserId == userId && b.Month == month && b.Year == year)
+                .Where(b => b.UserProfileId == userId && b.Month == month && b.Year == year)
                 .Select(b => new BudgetSummaryDto
                 {
                     Id = b.Id,
                     CategoryName = b.Category.Name, 
                     LimitAmount = b.LimitAmount,
-                    AmountSpent = context.Transactions.Where(t => t.UserId == userId 
+                    AmountSpent = context.Transactions.Where(t => t.UserProfileId == userId 
                                                                   && t.CategoryId == b.CategoryId 
                                                                   && t.TransactionDate.Month == month 
                                                                   && t.TransactionDate.Year == year
@@ -84,7 +84,7 @@ public class BudgetService(ILogger<BudgetService> logger, FinanceTrackerDbContex
             if (budget == null)
                 return ServiceResult<bool>.Failure("Budget not found");
             
-            if(budget.UserId != userId)
+            if(budget.UserProfileId != userId)
                 return ServiceResult<bool>.Failure("You are not authorized to delete this budget");
             
             context.Budgets.Remove(budget);

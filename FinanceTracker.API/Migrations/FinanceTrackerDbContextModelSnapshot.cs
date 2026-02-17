@@ -32,7 +32,7 @@ namespace FinanceTracker.API.Migrations
                     b.Property<int>("Month")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserProfileId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Year")
@@ -42,7 +42,7 @@ namespace FinanceTracker.API.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Budgets");
                 });
@@ -57,12 +57,12 @@ namespace FinanceTracker.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserProfileId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Categories");
                 });
@@ -93,42 +93,16 @@ namespace FinanceTracker.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserProfileId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("FinanceTracker.API.Model.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("FinanceTracker.API.Model.UserProfile", b =>
@@ -165,26 +139,26 @@ namespace FinanceTracker.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinanceTracker.API.Model.User", "User")
+                    b.HasOne("FinanceTracker.API.Model.UserProfile", "UserProfile")
                         .WithMany("Budgets")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("FinanceTracker.API.Model.Category", b =>
                 {
-                    b.HasOne("FinanceTracker.API.Model.User", "User")
+                    b.HasOne("FinanceTracker.API.Model.UserProfile", "UserProfile")
                         .WithMany("Categories")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("FinanceTracker.API.Model.Transaction", b =>
@@ -195,15 +169,15 @@ namespace FinanceTracker.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinanceTracker.API.Model.User", "User")
+                    b.HasOne("FinanceTracker.API.Model.UserProfile", "UserProfile")
                         .WithMany("Transactions")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("FinanceTracker.API.Model.Category", b =>
@@ -213,7 +187,7 @@ namespace FinanceTracker.API.Migrations
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("FinanceTracker.API.Model.User", b =>
+            modelBuilder.Entity("FinanceTracker.API.Model.UserProfile", b =>
                 {
                     b.Navigation("Budgets");
 

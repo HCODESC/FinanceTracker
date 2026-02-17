@@ -13,14 +13,14 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
     {
         try
         {
-            var categoryExists = await context.Categories.AnyAsync(c => c.Name == categoryRequestDto.Name && c.UserId == userId);
+            var categoryExists = await context.Categories.AnyAsync(c => c.Name == categoryRequestDto.Name && c.UserProfileId == userId);
         
             if(categoryExists)
                 return ServiceResult<CategoryResponseDto>.Failure("Category already exists");
             
             var newCategory = mapper.Map<Model.Category>(categoryRequestDto);
             newCategory.Id = Guid.NewGuid();
-            newCategory.UserId = userId;
+            newCategory.UserProfileId = userId;
             
             await context.Categories.AddAsync(newCategory);
             await context.SaveChangesAsync();
@@ -45,7 +45,7 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
         {
             var category = await context.Categories.FindAsync(categoryId);
 
-            if (category != null && category.UserId != userId)
+            if (category != null && category.UserProfileId != userId)
                 return ServiceResult<CategoryResponseDto>.Failure(
                     "You are not authorized to view this category"
                 );
@@ -78,7 +78,7 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
         try
         {
             var category = await context.Categories.FirstOrDefaultAsync(c =>
-                c.Name == categoryName && c.UserId == userId
+                c.Name == categoryName && c.UserProfileId == userId
             );
 
             if (category == null)
@@ -104,7 +104,7 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
     {
         try
         {
-            var categories = await context.Categories.Where(c => c.UserId == userId).ToListAsync(); 
+            var categories = await context.Categories.Where(c => c.UserProfileId == userId).ToListAsync(); 
             
             var response = categories
                 .Select(c => mapper.Map<CategoryResponseDto>(c))
@@ -138,11 +138,11 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
                     "Category not found"
                 );
             
-            if(category.UserId != userId)
+            if(category.UserProfileId != userId)
                 return ServiceResult<CategoryResponseDto>.Failure("You are not authorized to edit this category");
 
             var nameExists = await context.Categories.AnyAsync(c =>
-                c.Name == category.Name && c.UserId == userId && c.Id != categoryId
+                c.Name == category.Name && c.UserProfileId == userId && c.Id != categoryId
             );
 
             if (nameExists)
@@ -177,7 +177,7 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
             if (category == null)
                 return ServiceResult<bool>.Failure("Category not found");
 
-            if (category.UserId != userId)
+            if (category.UserProfileId != userId)
                 return ServiceResult<bool>.Failure("You are not authorized to view this category");
             
             var hasTransactions = await context.Transactions.AnyAsync(t => t.CategoryId == id);

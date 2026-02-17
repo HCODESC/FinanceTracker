@@ -1,7 +1,6 @@
 using System.Text;
 using FinanceTracker.API;
 using FinanceTracker.API.Data;
-using FinanceTracker.API.Services.Auth;
 using FinanceTracker.API.Services.Budget;
 using FinanceTracker.API.Services.Category;
 using FinanceTracker.API.Services.Report;
@@ -70,8 +69,6 @@ builder.Services.AddAuthentication(options =>
     }; 
 });
 
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
