@@ -10,11 +10,12 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
     : ITransactionService
 {
     public async Task<ServiceResult<TransactionResponseDto>> CreateTransactionAsync(
-        TransactionRequestDto transactionRequestDto, Guid userId)
+        TransactionRequestDto transactionRequestDto, Guid profileId, string userProfileId)
     {
         try
         {
             Guid categoryId;
+            var userProfile = await context.UserProfiles.FirstOrDefaultAsync(up => up.Id == profileId);
 
             //Check if user provided a category name to create or find
             if (!string.IsNullOrWhiteSpace(transactionRequestDto.CreateCategoryName))
@@ -22,7 +23,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 var categoryName = transactionRequestDto.CreateCategoryName.Trim();
                 
                 var existingCategory = await context.Categories
-                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserProfileId == userId);
+                    .FirstOrDefaultAsync(x => x.Name == categoryName && x.UserProfileId == Guid.Parse(userProfileId));
 
                 if (existingCategory != null)
                 {
@@ -35,7 +36,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                     {
                         Id = Guid.NewGuid(),
                         Name = categoryName,
-                        UserProfileId = userId
+                        UserProfileId = profileId
                     };
 
                     await context.Categories.AddAsync(newCategory);
@@ -50,7 +51,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                 
                 context.ChangeTracker.Clear();
                 var categoryExists = await context.Categories.IgnoreQueryFilters()
-                    .AnyAsync(c => c.Id == categoryId && c.UserProfileId == userId);
+                    .AnyAsync(c => c.Id == categoryId && c.UserProfileId == Guid.Parse(userProfileId));
 
                 if (!categoryExists)
                     return ServiceResult<TransactionResponseDto>.Failure(
@@ -61,7 +62,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
             {
                 var uncategorized = await context.Categories
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserProfileId == userId);
+                    .FirstOrDefaultAsync(x => x.Name == "Uncategorized" && x.UserProfileId == Guid.Parse(userProfileId));
 
                 if (uncategorized == null)
                 {
@@ -69,7 +70,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
                     {
                         Id = Guid.NewGuid(),
                         Name = "Uncategorized",
-                        UserProfileId = userId
+                        UserProfileId = profileId
                     };
 
                     await context.Categories.AddAsync(uncategorized);
@@ -81,7 +82,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
 
             var transaction = mapper.Map<Model.Transaction>(transactionRequestDto);
             transaction.Id = Guid.NewGuid();
-            transaction.UserProfileId = userId;
+            transaction.UserProfileId = Guid.Parse(userProfileId);
             transaction.CategoryId = categoryId;
 
             await context.AddAsync(transaction);
@@ -94,7 +95,7 @@ public class TransactionService(FinanceTrackerDbContext context, IMapper mapper,
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error Creating transaction for user: {userId}", userId);
+            logger.LogError(ex, "Error Creating transaction for user: {profileId}", profileId);
             return ServiceResult<TransactionResponseDto>.Failure("Failed to create transaction");
         }
     }

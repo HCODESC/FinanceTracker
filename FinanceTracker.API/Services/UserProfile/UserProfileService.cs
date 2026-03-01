@@ -40,7 +40,7 @@ namespace FinanceTracker.API.Services.UserProfile
 
         public async Task<ServiceResult<UserProfileResponseDto>> GetUserProfileAsync(string supabaseId)
         {
-            var userProfile = await context.UserProfiles.FindAsync(supabaseId);
+            var userProfile = await context.UserProfiles.FirstOrDefaultAsync(up => up.SupabaseId == supabaseId);
 
             if (userProfile == null)
             {

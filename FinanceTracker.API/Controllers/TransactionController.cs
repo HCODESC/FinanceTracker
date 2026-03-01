@@ -1,8 +1,9 @@
-﻿using FinanceTracker.Shared.DTOs;
-using FinanceTracker.API.Extensions;
+﻿using FinanceTracker.API.Extensions;
 using FinanceTracker.API.Services.Transaction;
+using FinanceTracker.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinanceTracker.API.Controllers;
 
@@ -18,8 +19,9 @@ public class TransactionController(ITransactionService service, ILogger<Transact
         try
         {
             // Get user ID from JWT token/claims
-            var userId = User.GetUserId(); 
-            
+            var userId = User.GetUserId();
+            var supabaseId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
+
             if (userId == Guid.Empty)
                 return Unauthorized();
 
@@ -29,7 +31,8 @@ public class TransactionController(ITransactionService service, ILogger<Transact
                 return BadRequest(ModelState);
             }
 
-            var result = await service.CreateTransactionAsync(transactionRequestDto, userId);
+            var result = await service.CreateTransactionAsync(transactionRequestDto, userId, supabaseId);
+            Console.WriteLine(supabaseId);
 
             if (result.IsSuccess)
             {

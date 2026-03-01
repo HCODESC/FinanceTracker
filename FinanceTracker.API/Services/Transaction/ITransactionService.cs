@@ -6,7 +6,7 @@ namespace FinanceTracker.API.Services.Transaction;
 public interface ITransactionService
 {
     // Create transaction
-    Task<ServiceResult<TransactionResponseDto>> CreateTransactionAsync(TransactionRequestDto transactionRequestDto, Guid userId); 
+    Task<ServiceResult<TransactionResponseDto>> CreateTransactionAsync(TransactionRequestDto transactionRequestDto, Guid userId, string userProfileId); 
     // Update Transaction
     Task<ServiceResult<TransactionResponseDto>> EditTransactionAsync(TransactionRequestDto transactionRequestDto, Guid id, Guid userId);
     // Delete Transaction 

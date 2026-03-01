@@ -31,7 +31,32 @@ public class UserProfileController(IUserProfileService service, ILogger<UserProf
             }
 
             return BadRequest(new { error = result.ErrorMessage });
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
+        {
+            logger.LogError("An error occurred while processing the request.\n" + ex.Message);
+            return StatusCode(500, new { error = "An error occurred while processing the request." });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetUserProfile()
+    {
+        try
+        {
+            var supabaseId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
+            if (supabaseId == string.Empty)
+            {
+                return Unauthorized();
+            }
+            var result = await service.GetUserProfileAsync(supabaseId);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return NotFound(new { error = result.ErrorMessage });
+        }
+        catch (Exception ex)
         {
             logger.LogError("An error occurred while processing the request.\n" + ex.Message);
             return StatusCode(500, new { error = "An error occurred while processing the request." });

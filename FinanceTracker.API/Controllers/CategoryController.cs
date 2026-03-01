@@ -1,8 +1,9 @@
-﻿using FinanceTracker.Shared.DTOs;
-using FinanceTracker.API.Extensions;
+﻿using FinanceTracker.API.Extensions;
 using FinanceTracker.API.Services.Category;
+using FinanceTracker.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinanceTracker.API.Controllers;
 
@@ -17,15 +18,15 @@ public class CategoryController(ICategoryService service, ILogger<CategoryContro
     {
         try
         {
-            var userId = User.GetUserId();
+            var supabaseId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? User.FindFirst("sub")?.Value;
 
-            if (userId == Guid.Empty)
+            if (supabaseId == string.Empty)
                 return Unauthorized();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await service.CreateCategory(categoryRequestDto, userId);
+            var result = await service.CreateCategory(categoryRequestDto, supabaseId);
 
             if (result.IsSuccess) return Ok(result.Data);
 

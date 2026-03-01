@@ -9,18 +9,28 @@ namespace FinanceTracker.API.Services.Category;
 public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, ILogger<CategoryService> logger)
     : ICategoryService
 {
-    public async Task<ServiceResult<CategoryResponseDto>> CreateCategory(CategoryRequestDto categoryRequestDto, Guid userId)
+    public async Task<ServiceResult<CategoryResponseDto>> CreateCategory(CategoryRequestDto categoryRequestDto, string supabaseId)
     {
         try
         {
-            var categoryExists = await context.Categories.AnyAsync(c => c.Name == categoryRequestDto.Name && c.UserProfileId == userId);
+            var userProfile = await context.UserProfiles.FirstOrDefaultAsync(up => up.SupabaseId == supabaseId);
+
+            if (userProfile == null)
+            {
+                return ServiceResult<CategoryResponseDto>.Failure("Cannot create category for non-existing user");
+            }
+
+            var categoryExists = await context.Categories.AnyAsync(c => c.Name == categoryRequestDto.Name && c.UserProfile.SupabaseId == supabaseId);
+
+            
         
             if(categoryExists)
                 return ServiceResult<CategoryResponseDto>.Failure("Category already exists");
             
             var newCategory = mapper.Map<Model.Category>(categoryRequestDto);
             newCategory.Id = Guid.NewGuid();
-            newCategory.UserProfileId = userId;
+            // Fix this bug
+            newCategory.UserProfileId = userProfile.Id;
             
             await context.Categories.AddAsync(newCategory);
             await context.SaveChangesAsync();
@@ -31,7 +41,7 @@ public class CategoryService(FinanceTrackerDbContext context, IMapper mapper, IL
         }
         catch (Exception e)
         {
-            logger.LogError(e, "There was an error creating category for user: {UserId}", userId);
+            logger.LogError(e, "There was an error creating category for user: {UserId}", supabaseId);
             return ServiceResult<CategoryResponseDto>.Failure("There was an error creating category");
         } 
     }

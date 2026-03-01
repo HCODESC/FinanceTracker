@@ -5,7 +5,7 @@ namespace FinanceTracker.API.Services.Category;
 
 public interface ICategoryService
 {
-   Task<ServiceResult<CategoryResponseDto>> CreateCategory(CategoryRequestDto categoryRequestDto, Guid userId);
+   Task<ServiceResult<CategoryResponseDto>> CreateCategory(CategoryRequestDto categoryRequestDto, string userId);
    Task<ServiceResult<CategoryResponseDto>> GetCategoryByIdAsync(Guid categoryId, Guid userId);
    Task<ServiceResult<CategoryResponseDto>> GetCategoryByNameAsync(String categoryName, Guid userId);
    Task<ServiceResult<List<CategoryResponseDto>>> GetAllCategoriesAsync(Guid userId );
